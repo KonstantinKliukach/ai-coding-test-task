@@ -1,0 +1,8 @@
+.husky
+.swc
+coverage
+dist
+build
+node_modules
+public
+mocks
