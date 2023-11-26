@@ -18,12 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Provider store={store}>
           <ThemeRegistry>
             <AppTopBar />
-            <Container
-              maxWidth="lg"
-              sx={{ minHeight: 'calc(100vh - 64px)', height: 'calc(100vh - 64px)', paddingY: 4 }}
-            >
-              {children}
-            </Container>
+            <Container maxWidth="lg">{children}</Container>
           </ThemeRegistry>
         </Provider>
       </body>
