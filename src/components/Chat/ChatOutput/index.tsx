@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import React, { useCallback, useEffect, useRef } from 'react';
 import ChatMessage from './ChatMessage';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
-interface ChatOutputProps {
-  messages: ChatMessage[];
-}
+const ChatOutput: React.FC = () => {
+  const messages = useSelector((state: RootState) => state.chatMessagesReducer.value);
 
-const ChatOutput: React.FC<ChatOutputProps> = ({ messages }) => {
   const lastMessage = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = useCallback(() => {
@@ -18,6 +18,7 @@ const ChatOutput: React.FC<ChatOutputProps> = ({ messages }) => {
       scrollToBottom();
     }
   }, [messages, scrollToBottom]);
+
   return (
     <Box
       sx={{

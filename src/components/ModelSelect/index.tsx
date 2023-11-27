@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { RootState } from '@/store';
-import { Apis, selectApi } from '@/store/slices/ApiSelectSlice';
+import { Apis, selectApi } from '@/store/slices/apiSelectSlice';
 import { Paper } from '@mui/material';
 
 const variants = Object.values(Apis);

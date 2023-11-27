@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import apiSelectReducer from './slices/ApiSelectSlice';
+import apiSelectReducer from './slices/apiSelectSlice';
+import chatMessagesReducer from './slices/chatMessagesSlice';
 
 const store = configureStore({
-  reducer: { apiSelectReducer },
+  reducer: { apiSelectReducer, chatMessagesReducer },
 });
 export default store;
 

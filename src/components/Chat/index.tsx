@@ -1,5 +1,4 @@
 'use client';
-import chatMock from '@/utils/mocks/messages';
 import { Paper } from '@mui/material';
 import React from 'react';
 import ChatInput from './ChatInput';
@@ -14,9 +13,10 @@ const ChatComponent = () => {
         borderColor: 'divider',
         borderBottom: 0,
         position: 'relative',
+        flex: 1,
       }}
     >
-      <ChatOutput messages={chatMock} />
+      <ChatOutput />
       <ChatInput />
     </Paper>
   );
