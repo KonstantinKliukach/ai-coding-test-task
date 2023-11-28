@@ -1,13 +1,37 @@
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import React, { useCallback, useEffect, useRef } from 'react';
 import ChatMessage from './ChatMessage';
 
-import chatMock from '@/utils/mocks/messages';
+import { styled } from '@mui/material/styles';
+
 import { useGetChatBySessionQuery } from '@/store/services/chatApi';
 
+const ChatContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(4),
+  minHeight: '100%',
+  height: 'calc(100vh - 240px)', // height of top bar + paddings + input
+  overflowY: 'auto',
+  padding: theme.spacing(2),
+  marginBottom: '116px',
+  scrollbarWidth: 'thin',
+  '&::-webkit-scrollbar': {
+    width: '0.4em',
+  },
+  '&::-webkit-scrollbar-track': {
+    background: '#f1f1f1',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    backgroundColor: theme.palette.secondary.light,
+  },
+  '&::-webkit-scrollbar-thumb:hover': {
+    background: theme.palette.secondary.dark,
+  },
+}));
+
 const ChatOutput: React.FC = () => {
-  const { data, isLoading, isError, error } = useGetChatBySessionQuery();
-  const messages = chatMock;
+  const { data: messages, isLoading, isError } = useGetChatBySessionQuery();
 
   const lastMessage = useRef<HTMLDivElement>(null);
 
@@ -21,17 +45,40 @@ const ChatOutput: React.FC = () => {
     }
   }, [messages, scrollToBottom]);
 
+  if (isLoading && !messages) {
+    return (
+      <ChatContainer
+        sx={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <CircularProgress color="primary" />
+      </ChatContainer>
+    );
+  }
+
+  if (isError) {
+    return (
+      <ChatContainer
+        sx={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        An error cccured during the loading..
+      </ChatContainer>
+    );
+  }
+
+  if (!messages) {
+    return null;
+  }
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 4,
-        minHeight: '100%',
-        maxHeight: '100%',
-        padding: 2,
-      }}
-    >
+    <ChatContainer>
       {messages.map((message, index) => (
         <ChatMessage
           sx={{
@@ -42,7 +89,7 @@ const ChatOutput: React.FC = () => {
           ref={index + 1 === messages.length ? lastMessage : undefined}
         />
       ))}
-    </Box>
+    </ChatContainer>
   );
 };
 
