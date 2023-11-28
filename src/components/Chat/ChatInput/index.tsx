@@ -2,16 +2,12 @@ import { Paper, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { addMessage } from '@/store/slices/chatMessagesSlice';
-import { ChatMessage } from '@/types';
-
 const ChatInput = () => {
   const [fieldValue, setFieldValue] = useState('');
   const dispatch = useDispatch();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(addMessage(new ChatMessage(fieldValue)));
     handleClearField();
   };
 

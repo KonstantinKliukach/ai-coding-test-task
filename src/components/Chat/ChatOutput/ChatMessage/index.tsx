@@ -1,3 +1,4 @@
+import { ChatMessage } from '@/types';
 import { Box, SxProps } from '@mui/material';
 import React, { forwardRef } from 'react';
 
@@ -5,7 +6,7 @@ interface ChatMessageProps extends ChatMessage {
   sx?: SxProps;
 }
 
-const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(({ text, creator, sx }, ref) => {
+const ChatMessageComponent = forwardRef<HTMLDivElement, ChatMessageProps>(({ content, role, sx }, ref) => {
   return (
     <Box
       ref={ref}
@@ -13,17 +14,17 @@ const ChatMessage = forwardRef<HTMLDivElement, ChatMessageProps>(({ text, creato
         ...sx,
         borderRadius: 6,
         padding: 2,
-        borderTopLeftRadius: creator === 'bot' ? 2 : undefined,
-        borderTopRightRadius: creator == 'user' ? 6 : undefined,
-        backgroundColor: creator === 'bot' ? 'secondary.dark' : 'primary.dark',
+        borderTopLeftRadius: role === 'assistant' ? 2 : undefined,
+        borderTopRightRadius: role == 'user' ? 6 : undefined,
+        backgroundColor: role !== 'user' ? 'secondary.dark' : 'primary.dark',
         color: 'contrastText',
       }}
     >
-      {text}
+      {content}
     </Box>
   );
 });
 
-ChatMessage.displayName = 'ChatMessage';
+ChatMessageComponent.displayName = 'ChatMessage';
 
-export default ChatMessage;
+export default ChatMessageComponent;

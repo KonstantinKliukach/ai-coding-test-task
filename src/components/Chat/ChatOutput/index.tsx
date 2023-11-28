@@ -1,11 +1,13 @@
 import { Box } from '@mui/material';
 import React, { useCallback, useEffect, useRef } from 'react';
 import ChatMessage from './ChatMessage';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+
+import chatMock from '@/utils/mocks/messages';
+import { useGetChatBySessionQuery } from '@/store/services/chatApi';
 
 const ChatOutput: React.FC = () => {
-  const messages = useSelector((state: RootState) => state.chatMessagesReducer.value);
+  const { data, isLoading, isError, error } = useGetChatBySessionQuery();
+  const messages = chatMock;
 
   const lastMessage = useRef<HTMLDivElement>(null);
 
@@ -33,7 +35,7 @@ const ChatOutput: React.FC = () => {
       {messages.map((message, index) => (
         <ChatMessage
           sx={{
-            alignSelf: message.creator === 'bot' ? 'start' : 'end',
+            alignSelf: message.role !== 'user' ? 'start' : 'end',
           }}
           key={message._id}
           {...message}
