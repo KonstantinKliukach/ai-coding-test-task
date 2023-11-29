@@ -9,7 +9,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 1. add a .env.local file to the root folder of the project with this structure
 
 ```bash
-BACKEND_BASE_URL = https://gptchatapi.azurewebsites.net//api
+BACKEND_BASE_URL =
 API_SESSION =
 API_TOKEN =
 ```
