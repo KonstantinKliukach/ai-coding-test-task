@@ -1,10 +1,10 @@
 import { Box, CircularProgress } from '@mui/material';
 import React, { useCallback, useEffect, useRef } from 'react';
-import ChatMessage from './ChatMessage';
 
 import { styled } from '@mui/material/styles';
 
-import { useGetChatBySessionQuery } from '@/store/services/chatApi';
+import { ChatMessage } from '@/types';
+import ChatMessageComponent from './ChatMessage';
 
 const ChatContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -30,9 +30,14 @@ const ChatContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const ChatOutput: React.FC = () => {
-  const { data: messages, isLoading, isError } = useGetChatBySessionQuery();
+interface ChatOutputProps {
+  messages?: ChatMessage[];
+  isLoading: boolean;
+  isError: boolean;
+  isNewMessageLoading: boolean;
+}
 
+const ChatOutput: React.FC<ChatOutputProps> = ({ messages, isError, isLoading, isNewMessageLoading }) => {
   const lastMessage = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = useCallback(() => {
@@ -43,7 +48,7 @@ const ChatOutput: React.FC = () => {
     if (lastMessage.current) {
       scrollToBottom();
     }
-  }, [messages, scrollToBottom]);
+  }, [messages, isNewMessageLoading, scrollToBottom]);
 
   if (isLoading && !messages) {
     return (
@@ -80,15 +85,24 @@ const ChatOutput: React.FC = () => {
   return (
     <ChatContainer>
       {messages.map((message, index) => (
-        <ChatMessage
+        <ChatMessageComponent
           sx={{
             alignSelf: message.role !== 'user' ? 'start' : 'end',
           }}
           key={message._id}
           {...message}
-          ref={index + 1 === messages.length ? lastMessage : undefined}
+          ref={index + 1 === messages.length && !isLoading ? lastMessage : undefined}
         />
       ))}
+      {isNewMessageLoading ? (
+        <ChatMessageComponent
+          sx={{
+            alignSelf: 'start',
+          }}
+          isLoading
+          ref={lastMessage}
+        />
+      ) : null}
     </ChatContainer>
   );
 };

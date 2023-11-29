@@ -1,21 +1,17 @@
-import { RootState } from '@/store';
-import { useAskToChatMutation } from '@/store/services/chatApi';
 import { Paper, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 
-const ChatInput = () => {
+interface ChatInputProps {
+  onSubmit: (content: string) => void;
+}
+
+const ChatInput: React.FC<ChatInputProps> = ({ onSubmit }) => {
   const [fieldValue, setFieldValue] = useState('');
-  const [sendTochat] = useAskToChatMutation();
-
-  const selectedApi = useSelector((state: RootState) => state.apiSelectReducer.value.path);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    sendTochat({
-      content: fieldValue,
-      api: selectedApi,
-    }).finally(() => handleClearField());
+    onSubmit(fieldValue);
+    handleClearField();
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +41,7 @@ const ChatInput = () => {
         <TextField
           variant="outlined"
           fullWidth
+          autoComplete="off"
           placeholder={"Let's do something awesome"}
           value={fieldValue}
           onChange={handleChange}
