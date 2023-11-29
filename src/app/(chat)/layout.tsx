@@ -16,14 +16,17 @@ const ChatLayout: React.FC<ChatLayoutProps> = ({ children }) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
   return (
     <Container
-      sx={{
+      sx={() => ({
         minHeight: 'calc(100vh - 64px)',
-        height: 'calc(100vh - 64px)',
+        height: !isSmallScreen ? 'calc(100vh - 64px)' : 'auto',
         paddingY: 4,
+        paddingBottom: isSmallScreen ? 0 : 4,
+        paddingX: isSmallScreen ? 0 : undefined,
         display: 'flex',
-        alignItems: 'flex-start',
+        flexDirection: isSmallScreen ? 'column' : 'row',
+        alignItems: !isSmallScreen ? 'flex-start' : undefined,
         gap: 2,
-      }}
+      })}
     >
       <ModelSelect size={isSmallScreen ? 'large' : 'medium'} orientation={isSmallScreen ? 'horizontal' : 'vertical'} />
       {children}

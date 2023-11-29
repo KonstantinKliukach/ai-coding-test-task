@@ -1,4 +1,4 @@
-import { Paper, TextField } from '@mui/material';
+import { Paper, TextField, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
 
 interface ChatInputProps {
@@ -9,6 +9,8 @@ interface ChatInputProps {
 }
 
 const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, value, onChange, disabled }) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit();
@@ -26,8 +28,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, value, onChange, disabl
         bottom: 0,
         left: 0,
         right: 0,
-        paddingX: 4,
-        paddingY: 2,
+        paddingX: isSmallScreen ? 1 : 4,
+        paddingY: isSmallScreen ? 1 : 4,
         border: '1px solid',
         borderColor: 'divider',
         borderTopLeftRadius: 0,
