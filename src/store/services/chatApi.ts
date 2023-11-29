@@ -24,7 +24,7 @@ export const chatApi = createApi({
         method: Methods.POST,
         body,
       }),
-      invalidatesTags: ['CHAT'],
+      invalidatesTags: (_, error) => (!error ? ['CHAT'] : []),
     }),
   }),
 });

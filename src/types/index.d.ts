@@ -4,5 +4,5 @@ export interface ChatMessageContent {
 }
 
 export interface ChatMessage extends ChatMessageContent {
-  _id: string;
+  _id?: string;
 }

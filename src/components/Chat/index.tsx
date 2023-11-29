@@ -1,16 +1,17 @@
 'use client';
 import { Paper } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { RootState } from '@/store';
 import { useSelector } from 'react-redux';
 import ChatInput from './ChatInput';
 import ChatOutput from './ChatOutput';
 
 import { useAskToChatMutation, useGetChatBySessionQuery } from '@/store/services/chatApi';
+import { ChatMessage } from '@/types';
 
 const ChatComponent = () => {
-  const { data: messages, isLoading, isError } = useGetChatBySessionQuery();
-  const [sendTochat, { isLoading: isNewMessageLoading }] = useAskToChatMutation();
+  const { data: messages, isLoading: isSessionLoading, isError: isSessionLoadingError } = useGetChatBySessionQuery();
+  const [sendTochat, { isLoading: isNewMessageLoading, isError: isNewMessageError }] = useAskToChatMutation();
   const selectedApi = useSelector((state: RootState) => state.apiSelectReducer.value.path);
 
   const [inputFieldValue, setInputFieldValue] = useState('');
@@ -20,7 +21,6 @@ const ChatComponent = () => {
       content: inputFieldValue,
       api: selectedApi,
     });
-    handleInputClearField();
   }, [inputFieldValue, selectedApi, sendTochat]);
 
   const handleInputFieldChange = useCallback((value: string) => {
@@ -31,6 +31,18 @@ const ChatComponent = () => {
     setInputFieldValue('');
   };
 
+  const messagesToShow: ChatMessage[] | undefined = useMemo(() => {
+    if (!messages) {
+      return messages;
+    }
+    if (messages && isNewMessageLoading) {
+      const content = inputFieldValue;
+      handleInputClearField();
+      return [...messages, { role: 'user', content }];
+    }
+    return [...messages];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isNewMessageLoading, messages]);
   return (
     <Paper
       sx={{
@@ -45,10 +57,11 @@ const ChatComponent = () => {
       }}
     >
       <ChatOutput
-        messages={messages}
-        isLoading={isLoading}
-        isError={isError}
+        messages={messagesToShow}
+        isSessionLoading={isSessionLoading}
+        isSessionLoadingError={isSessionLoadingError}
         isNewMessageLoading={isNewMessageLoading}
+        isNewMessageError={isNewMessageError}
       />
       <ChatInput value={inputFieldValue} onChange={handleInputFieldChange} onSubmit={handleInputSubmit} />
     </Paper>

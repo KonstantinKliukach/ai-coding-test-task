@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 
 import { ChatMessage } from '@/types';
 import ChatMessageComponent from './ChatMessage';
+import ChatMessageErrorComponent from './CharMessageError';
 
 const ChatContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -32,12 +33,19 @@ const ChatContainer = styled(Box)(({ theme }) => ({
 
 interface ChatOutputProps {
   messages?: ChatMessage[];
-  isLoading: boolean;
-  isError: boolean;
+  isSessionLoading: boolean;
+  isSessionLoadingError: boolean;
   isNewMessageLoading: boolean;
+  isNewMessageError: boolean;
 }
 
-const ChatOutput: React.FC<ChatOutputProps> = ({ messages, isError, isLoading, isNewMessageLoading }) => {
+const ChatOutput: React.FC<ChatOutputProps> = ({
+  messages,
+  isSessionLoadingError,
+  isSessionLoading,
+  isNewMessageLoading,
+  isNewMessageError,
+}) => {
   const lastMessage = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = useCallback(() => {
@@ -48,9 +56,9 @@ const ChatOutput: React.FC<ChatOutputProps> = ({ messages, isError, isLoading, i
     if (lastMessage.current) {
       scrollToBottom();
     }
-  }, [messages, isNewMessageLoading, scrollToBottom]);
+  }, [messages, isNewMessageLoading, , isNewMessageError, scrollToBottom]);
 
-  if (isLoading && !messages) {
+  if (isSessionLoading && !messages) {
     return (
       <ChatContainer
         sx={{
@@ -64,7 +72,7 @@ const ChatOutput: React.FC<ChatOutputProps> = ({ messages, isError, isLoading, i
     );
   }
 
-  if (isError) {
+  if (isSessionLoadingError) {
     return (
       <ChatContainer
         sx={{
@@ -91,7 +99,7 @@ const ChatOutput: React.FC<ChatOutputProps> = ({ messages, isError, isLoading, i
           }}
           key={message._id}
           {...message}
-          ref={index + 1 === messages.length && !isLoading ? lastMessage : undefined}
+          ref={index + 1 === messages.length && !isSessionLoading ? lastMessage : undefined}
         />
       ))}
       {isNewMessageLoading ? (
@@ -100,6 +108,14 @@ const ChatOutput: React.FC<ChatOutputProps> = ({ messages, isError, isLoading, i
             alignSelf: 'start',
           }}
           isLoading
+          ref={lastMessage}
+        />
+      ) : null}
+      {isNewMessageError ? (
+        <ChatMessageErrorComponent
+          sx={{
+            alignSelf: 'start',
+          }}
           ref={lastMessage}
         />
       ) : null}
