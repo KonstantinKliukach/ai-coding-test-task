@@ -26,6 +26,8 @@ npm i
 npm run dev
 ```
 
+3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
 ## Core technologies
 
 - [Next.js](https://nextjs.org) as a frontend framework
@@ -33,5 +35,3 @@ npm run dev
 - [Redux Toolkit](https://redux-toolkit.js.org) as a state manager
 - [MUI](https://mui.com) as a UI kit
 - [Prettier](https://prettier.io) and [ESlint](https://eslint.org) for code quality control
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
