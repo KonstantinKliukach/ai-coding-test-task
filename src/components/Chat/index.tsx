@@ -1,6 +1,6 @@
 'use client';
 import { Paper } from '@mui/material';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { RootState } from '@/store';
 import { useSelector } from 'react-redux';
 import ChatInput from './ChatInput';
@@ -13,11 +13,22 @@ const ChatComponent = () => {
   const [sendTochat, { isLoading: isNewMessageLoading }] = useAskToChatMutation();
   const selectedApi = useSelector((state: RootState) => state.apiSelectReducer.value.path);
 
-  const handleInputSubmit = (content: string) => {
+  const [inputFieldValue, setInputFieldValue] = useState('');
+
+  const handleInputSubmit = useCallback(() => {
     sendTochat({
-      content,
+      content: inputFieldValue,
       api: selectedApi,
     });
+    handleInputClearField();
+  }, [inputFieldValue, selectedApi, sendTochat]);
+
+  const handleInputFieldChange = useCallback((value: string) => {
+    setInputFieldValue(value);
+  }, []);
+
+  const handleInputClearField = () => {
+    setInputFieldValue('');
   };
 
   return (
@@ -39,7 +50,7 @@ const ChatComponent = () => {
         isError={isError}
         isNewMessageLoading={isNewMessageLoading}
       />
-      <ChatInput onSubmit={handleInputSubmit} />
+      <ChatInput value={inputFieldValue} onChange={handleInputFieldChange} onSubmit={handleInputSubmit} />
     </Paper>
   );
 };

@@ -1,24 +1,20 @@
 import { Paper, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 
 interface ChatInputProps {
-  onSubmit: (content: string) => void;
+  onSubmit: () => void;
+  onChange: (value: string) => void;
+  value: string;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({ onSubmit }) => {
-  const [fieldValue, setFieldValue] = useState('');
-
+const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, value, onChange }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(fieldValue);
-    handleClearField();
+    onSubmit();
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFieldValue(event.target.value);
-  };
-  const handleClearField = () => {
-    setFieldValue('');
+    onChange(event.target.value);
   };
   return (
     <Paper
@@ -43,7 +39,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSubmit }) => {
           fullWidth
           autoComplete="off"
           placeholder={"Let's do something awesome"}
-          value={fieldValue}
+          value={value}
           onChange={handleChange}
         />
       </form>
