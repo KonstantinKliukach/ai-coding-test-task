@@ -63,7 +63,12 @@ const ChatComponent = () => {
         isNewMessageLoading={isNewMessageLoading}
         isNewMessageError={isNewMessageError}
       />
-      <ChatInput value={inputFieldValue} onChange={handleInputFieldChange} onSubmit={handleInputSubmit} />
+      <ChatInput
+        disabled={isSessionLoading}
+        value={inputFieldValue}
+        onChange={handleInputFieldChange}
+        onSubmit={handleInputSubmit}
+      />
     </Paper>
   );
 };

@@ -4,10 +4,11 @@ import React from 'react';
 interface ChatInputProps {
   onSubmit: () => void;
   onChange: (value: string) => void;
+  disabled: boolean;
   value: string;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, value, onChange }) => {
+const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, value, onChange, disabled }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit();
@@ -41,6 +42,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, value, onChange }) => {
           placeholder={"Let's do something awesome"}
           value={value}
           onChange={handleChange}
+          disabled={disabled}
         />
       </form>
     </Paper>
