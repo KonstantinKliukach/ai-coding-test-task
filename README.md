@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-0. this project requires version of node.js higher than 20, you can use [NVM](https://link-url-here.org) to switch between versions
+0. this project requires version of node.js higher than 20, you can use [NVM](https://github.com/nvm-sh/nvm) to switch between versions
 
 1. add a .env.local file to the root folder of the project with this structure
 
@@ -14,17 +14,19 @@ API_SESSION =
 API_TOKEN =
 ```
 
-2. run the development server:
+2. install the dependencies
+
+```bash
+npm i
+```
+
+3. run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+
+3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Core technologies
 
@@ -33,5 +35,3 @@ bun dev
 - [Redux Toolkit](https://redux-toolkit.js.org) as a state manager
 - [MUI](https://mui.com) as a UI kit
 - [Prettier](https://prettier.io) and [ESlint](https://eslint.org) for code quality control
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
