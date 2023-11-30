@@ -32,15 +32,23 @@ const ChatComponent = () => {
   };
 
   const messagesToShow: ChatMessage[] | undefined = useMemo(() => {
-    if (!messages) {
-      return messages;
+    const resultMessages: ChatMessage[] = [];
+    if (!messages || isSessionLoadingError) {
+      resultMessages.push({ role: 'system', content: 'System: How can we help you today?' });
+    } else {
+      resultMessages.push(...messages);
+    }
+    if (isNewMessageLoading) {
+      const content = inputFieldValue;
+      handleInputClearField();
+      resultMessages.push({ role: 'user', content });
     }
     if (messages && isNewMessageLoading) {
       const content = inputFieldValue;
       handleInputClearField();
       return [...messages, { role: 'user', content }];
     }
-    return [...messages];
+    return resultMessages;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNewMessageLoading, messages]);
   return (
@@ -59,7 +67,6 @@ const ChatComponent = () => {
       <ChatOutput
         messages={messagesToShow}
         isSessionLoading={isSessionLoading}
-        isSessionLoadingError={isSessionLoadingError}
         isNewMessageLoading={isNewMessageLoading}
         isNewMessageError={isNewMessageError}
       />

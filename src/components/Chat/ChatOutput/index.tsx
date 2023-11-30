@@ -12,10 +12,10 @@ const ChatContainer = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   gap: theme.spacing(4),
   minHeight: '100%',
-  height: 'calc(100vh - 240px)', // height of top bar + paddings + input
+  height: theme.breakpoints.up('md') ? 'calc(100vh - 240px)' : 'calc(100vh - 140px)',
   overflowY: 'auto',
   padding: theme.spacing(2),
-  marginBottom: '116px',
+  marginBottom: theme.breakpoints.down('md') ? 0 : '116px',
   scrollbarWidth: 'thin',
   '&::-webkit-scrollbar': {
     width: '0.4em',
@@ -34,14 +34,12 @@ const ChatContainer = styled(Box)(({ theme }) => ({
 interface ChatOutputProps {
   messages?: ChatMessage[];
   isSessionLoading: boolean;
-  isSessionLoadingError: boolean;
   isNewMessageLoading: boolean;
   isNewMessageError: boolean;
 }
 
 const ChatOutput: React.FC<ChatOutputProps> = ({
   messages,
-  isSessionLoadingError,
   isSessionLoading,
   isNewMessageLoading,
   isNewMessageError,
@@ -68,20 +66,6 @@ const ChatOutput: React.FC<ChatOutputProps> = ({
         }}
       >
         <CircularProgress color="primary" />
-      </ChatContainer>
-    );
-  }
-
-  if (isSessionLoadingError) {
-    return (
-      <ChatContainer
-        sx={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        An error cccured during the loading..
       </ChatContainer>
     );
   }

@@ -29,7 +29,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, value, onChange, disabl
         left: 0,
         right: 0,
         paddingX: isSmallScreen ? 1 : 4,
-        paddingY: isSmallScreen ? 1 : 4,
+        paddingY: isSmallScreen ? 1 : 2,
         border: '1px solid',
         borderColor: 'divider',
         borderTopLeftRadius: 0,
