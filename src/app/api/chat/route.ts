@@ -34,8 +34,10 @@ export async function POST(request: Request) {
     payload = { n: 0, prompt: content, resolution: '400', token: API_TOKEN };
   }
 
+  const url = `${API_HOST}/${api}`;
+  console.info(url, payload);
   try {
-    const { data } = await axios.post<ResponseData>(`${API_HOST}/${api}`, payload);
+    const { data } = await axios.post<ResponseData>(url, payload);
     return Response.json(data);
   } catch (error) {
     const e = error as AxiosError;

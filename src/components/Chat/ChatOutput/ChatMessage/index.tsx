@@ -1,5 +1,5 @@
 import { ChatMessage } from '@/types';
-import { Box, Skeleton, SxProps } from '@mui/material';
+import { Box, Skeleton, SxProps, useMediaQuery, useTheme } from '@mui/material';
 import React, { forwardRef } from 'react';
 
 interface ChatMessageProps extends Partial<ChatMessage> {
@@ -7,13 +7,17 @@ interface ChatMessageProps extends Partial<ChatMessage> {
   isLoading?: boolean;
 }
 
-const ChatMessageSkeleton: React.FC = () => (
-  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-    <Skeleton variant="rectangular" width={400} height={16} />
-    <Skeleton variant="rectangular" width={400} height={16} />
-    <Skeleton variant="rectangular" width={300} height={16} />
-  </Box>
-);
+const ChatMessageSkeleton: React.FC = () => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      <Skeleton variant="rectangular" width={!isSmallScreen ? 400 : 160} height={16} />
+      <Skeleton variant="rectangular" width={!isSmallScreen ? 400 : 160} height={16} />
+      <Skeleton variant="rectangular" width={!isSmallScreen ? 300 : 120} height={16} />
+    </Box>
+  );
+};
 
 const ChatMessageComponent = forwardRef<HTMLDivElement, ChatMessageProps>(({ content, role, sx, isLoading }, ref) => {
   return (

@@ -19,7 +19,7 @@ const ChatLayout: React.FC<ChatLayoutProps> = ({ children }) => {
       sx={() => ({
         minHeight: 'calc(100vh - 64px)',
         height: !isSmallScreen ? 'calc(100vh - 64px)' : 'auto',
-        paddingY: 4,
+        paddingTop: isSmallScreen ? 2 : 4,
         paddingBottom: isSmallScreen ? 0 : 4,
         paddingX: isSmallScreen ? 0 : undefined,
         display: 'flex',
